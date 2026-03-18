@@ -2,7 +2,7 @@ import streamlit as st
 import io
 
 st.set_page_config(page_title="Nexia Robotic Calibration Tool", page_icon="🤖", menu_items={
-    'How To Use': 'hey'
+    'How To Use': "hey"
 })
 
 st.title("Fanuc Calibration Data Tool")
