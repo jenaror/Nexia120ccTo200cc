@@ -2,7 +2,7 @@ import streamlit as st
 import io
 
 st.set_page_config(page_title="Nexia Robotic Calibration Tool", page_icon="🤖"
-})
+)
 
 st.title("Fanuc Calibration Data Tool")
 st.write("Convert your 120cc calibrations to 200cc.\n Upload your .txt file, set your offsets, and download the updated version.\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
