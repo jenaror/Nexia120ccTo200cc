@@ -10,6 +10,7 @@ st.write("Convert your 120cc calibrations to 200cc.\n\nUpload your .txt file, se
 # Sidebar for inputs
 y_offset = st.number_input("Vertical Position Offset (in mm)", value=8.0)
 z_offset = st.number_input("Approach Position Offset (in mm)", value=-3.0)
+updated_file_name = st.text_input("Output File Name", value="Updated_Fanuc_Data.txt")
 
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 
@@ -48,7 +49,7 @@ if uploaded_file is not None:
     st.download_button(
         label="Download Updated File",
         data=final_output,
-        file_name="Updated_Fanuc_Data.txt",
+        file_name=updated_file_name,
         mime="text/plain"
     )
     st.success("Processing complete! Click download above.")
