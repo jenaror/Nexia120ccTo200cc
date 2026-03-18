@@ -1,13 +1,11 @@
 import streamlit as st
 import io
 
-st.set_page_config(page_title="Nexia Robotic Calibration Tool", page_icon="🤖", menu_items={
-    'Get Help': 'https://www.extremelycoolapp.com/help',
-    'Report a bug': "https://www.extremelycoolapp.com/bug"
+st.set_page_config(page_title="Nexia Robotic Calibration Tool", page_icon="🤖"
 })
 
 st.title("Fanuc Calibration Data Tool")
-st.write("Convert your 120cc calibrations to 200cc.\nUpload your .txt file, set your offsets, and download the updated version.\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
+st.write("Convert your 120cc calibrations to 200cc.\n Upload your .txt file, set your offsets, and download the updated version.\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
 
 # Sidebar for inputs
 y_offset = st.number_input("Vertical Position Offset (in mm)", value=8.0)
