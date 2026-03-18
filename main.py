@@ -7,8 +7,8 @@ st.title("Fanuc Calibration Data Tool")
 st.write("Convert your 120cc calibrations to 200cc.\nUpload your .txt file, set your offsets, and download the updated version.\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
 
 # Sidebar for inputs
-y_offset = st.sidebar.number_input("Vertical Position Offset", value=8.0)
-z_offset = st.sidebar.number_input("Approach Position Offset", value=-3.0)
+y_offset = st.sidebar.number_input("Vertical Position Offset (in mm)", value=8.0)
+z_offset = st.sidebar.number_input("Approach Position Offset (in mm)", value=-3.0)
 
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 
