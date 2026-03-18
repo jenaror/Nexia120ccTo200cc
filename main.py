@@ -5,7 +5,7 @@ st.set_page_config(page_title="Nexia Robotic Calibration Tool", page_icon="🤖"
 )
 
 st.title("Fanuc Calibration Data Tool")
-st.write("Convert your 120cc calibrations to 200cc.\n Upload your .txt file, set your offsets, and download the updated version.\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
+st.write("Convert your 120cc calibrations to 200cc.\n\nUpload your .txt file, set your offsets, and download the updated version.\n\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
 
 # Sidebar for inputs
 y_offset = st.number_input("Vertical Position Offset (in mm)", value=8.0)
