@@ -49,7 +49,7 @@ if uploaded_file is not None:
     st.download_button(
         label="Download Updated File",
         data=final_output,
-        file_name=updated_file_name,
+        file_name=updated_file_name + ".txt",
         mime="text/plain"
     )
     st.success("Processing complete! Click download above.")
