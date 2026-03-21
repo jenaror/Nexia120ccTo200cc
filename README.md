@@ -17,17 +17,23 @@ If you calibrated the robot manually for 120cc and don't want to manually offset
 
 ## How to use this tool
 
-### Prepping the calibrations
-The robot should be fully calibrated for 120cc bottles at all positions, including pick up and drop off. The robot should also be separetly calibrated for the 200cc pick and drop off. Follow standard procedure for getting these calibrations.
+#### Prepping the calibrations
+The robot should be fully calibrated for 120cc bottles at all positions, including pick up and drop off. The robot should also be separately calibrated for the 200cc pick and drop off. Follow standard procedure for getting these calibrations.
 
-### Calculating the offset
+#### Calculating the offset
 To calculate the offset, we need to find the difference in height from where the bottle sits in the robot grippers. First pick up a 120cc bottle from the pick up position via the calibration menu, then measure the distance from the top of the bottle to the top of the gripper fingers. Do the same for 200cc and calculate the difference in height to get your offset.
+
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-6.jpg" alt="Small vial height" height="300"> <img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-4.jpg" alt="Large vial height" height="300">
 
 Perform the same procedure but this time measuring the distance from the base of the gripper fingers to center of the bottle between the two sizes. The difference in distances is how much the 200cc bottles sticks out further than the 120cc bottles.
 
-### Retrieving the Cal Data file
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-5.jpg" alt="Description" height="300"> <img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-3.jpg" alt="Description" height="300">
 
-### Setting the offsets
+**Note:** Unless you're using different vials than the standard calibration bottle and the standard 200cc bottle, the Z offset will probably be -3.0mm. After recording the offsets, test the offset by using a 120cc calibration and using the "Shift Position" button to shift it by your recorded values. If the new shifted position works for a 200cc bottle then you're good to go.
 
-### Loading the Cal Data file
-Navigate to the web tool at https://nexiacaldata.streamlit.app Set your offsets (in millimeters) on the right side. Export the Fanuc Cal Data from Robotic Filling Manager and upload the .txt file to the tool. Download the modified file. In RFM, you will have to manually delete the 200cc positions before uploading the modified file. Make sure you hit close after deleting the 200cc positions to save them as empty (RFM will not override existing postions by uploading a calibration file). 
+#### Retrieving the Cal Data file
+
+#### Setting the offsets
+
+#### Loading the Cal Data file
+Navigate to the web tool at https://nexiacaldata.streamlit.app Set your offsets (in millimeters) on the right side. Export the Fanuc Cal Data from Robotic Filling Manager and upload the .txt file to the tool. Download the modified file. In RFM, you will have to manually delete the 200cc positions before uploading the modified file. Make sure you hit close after deleting the 200cc positions to save them as empty (RFM will not override existing positions by uploading a calibration file). 
