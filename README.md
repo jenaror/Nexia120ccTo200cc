@@ -16,4 +16,11 @@ This tool cannot convert 200cc positions to 120cc positions.
 If you calibrated the robot manually for 120cc and don't want to manually offset all the positions to match the bigger vial size for 200cc, this tool will apply the offset in seconds. 
 
 ## How to use this tool
+### Calculating the offset
+
+### Retrieving the Cal Data file
+
+### Setting the offsets
+
+### Loading the Cal Data file
 Navigate to the web tool at https://nexiacaldata.streamlit.app Set your offsets (in millimeters) on the right side. Export the Fanuc Cal Data from Robotic Filling Manager and upload the .txt file to the tool. Download the modified file. In RFM, you will have to manually delete the 200cc positions before uploading the modified file. Make sure you hit close after deleting the 200cc positions to save them as empty (RFM will not override existing postions by uploading a calibration file). 
