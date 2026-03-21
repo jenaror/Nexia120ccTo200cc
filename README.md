@@ -16,7 +16,14 @@ This tool cannot convert 200cc positions to 120cc positions.
 If you calibrated the robot manually for 120cc and don't want to manually offset all the positions to match the bigger vial size for 200cc, this tool will apply the offset in seconds. 
 
 ## How to use this tool
+
+### Prepping the calibrations
+The robot should be fully calibrated for 120cc bottles at all positions, including pick up and drop off. The robot should also be separetly calibrated for the 200cc pick and drop off. Follow standard procedure for getting these calibrations.
+
 ### Calculating the offset
+To calculate the offset, we need to find the difference in height from where the bottle sits in the robot grippers. First pick up a 120cc bottle from the pick up position via the calibration menu, then measure the distance from the top of the bottle to the top of the gripper fingers. Do the same for 200cc and calculate the difference in height to get your offset.
+
+Perform the same procedure but this time measuring the distance from the base of the gripper fingers to center of the bottle between the two sizes. The difference in distances is how much the 200cc bottles sticks out further than the 120cc bottles.
 
 ### Retrieving the Cal Data file
 
