@@ -57,8 +57,8 @@ if uploaded_file is not None:
             output_lines.append('|'.join(new_row))
         else:
             output_lines.append(line)
-
-    if st.checkbox("Show Preview of Changes"):
+            
+if st.checkbox("Show Preview of Changes"):
     st.subheader("Calibration Preview (First 5 Positions)")
     
     preview_count = 0
