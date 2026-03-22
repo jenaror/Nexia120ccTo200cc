@@ -19,9 +19,9 @@ def write_human_summary(y_val, z_val):
     z_dir = "closer to" if z_val >= 0 else "further from"
     
     summary_text = (
-        f"Your **200cc** bottle will be **{abs(y_val)}mm {y_dir}** "
+        f"Your **200cc** will be **{abs(y_val)}mm {y_dir}** "
         f"and **{abs(z_val)}mm {z_dir}** the dispenser "
-        f"than your **120cc** bottle."
+        f"than your **120cc**."
     )
     
     return st.info(summary_text)
@@ -59,10 +59,40 @@ if uploaded_file is not None:
             output_lines.append(line)
 
     if st.checkbox("Show Preview of Changes"):
-        import pandas as pd
-        preview_data = [line.split('|') for line in output_lines if '|30|' or '|28|' in line]
-        df = pd.DataFrame(preview_data).iloc[:10] 
-        st.table(df)
+    st.subheader("Calibration Preview (First 5 Positions)")
+    
+    preview_count = 0
+    # Loop through the output lines to find the updated '30' rows
+    for line in output_lines:
+        if "vial" in line.lower(): 
+            continue
+            
+        parts = line.split('|')
+        
+        # Look for the size '30' rows to display
+        if len(parts) > 5 and parts[1] == '30':
+            cabinet_pos = parts[0]
+            
+            # Fetch the original '28' row data we saved earlier
+            if cabinet_pos in ref_28_data:
+                old_parts = ref_28_data[cabinet_pos]
+                
+                # Format the 120cc (Size 28) string using columns 3, 4, 5
+                str_120cc = f"**120cc (Size 28)** ➔ Col 3: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
+                
+                # Format the 200cc (Size 30) string using columns 3, 4, 5
+                str_200cc = f"**200cc (Size 30)** ➔ Col 3: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
+                
+                # Print to the web app using markdown
+                st.markdown(f"### Position: {cabinet_pos}")
+                st.markdown(f"- {str_120cc}")
+                st.markdown(f"- {str_200cc}")
+                st.divider() # Adds a clean visual line between cabinet positions
+                
+                preview_count += 1
+                # Limit to 5 examples so it doesn't flood the web page
+                if preview_count >= 5:
+                    break
 
     # Prepare for download
     final_output = "\n".join(output_lines)
