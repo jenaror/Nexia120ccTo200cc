@@ -57,6 +57,17 @@ if uploaded_file is not None:
             output_lines.append('|'.join(new_row))
         else:
             output_lines.append(line)
+
+# Prepare for download
+final_output = "\n".join(output_lines)
+st.download_button(
+    label="Download Updated File",
+    data=final_output,
+    file_name=updated_file_name + ".txt",
+    mime="text/plain"
+)
+st.success("Processing complete! Click download above.")
+
             
 if st.checkbox("Show Preview of Changes"):
     st.subheader("Calibration Preview (First 5 Positions)")
@@ -78,28 +89,18 @@ if st.checkbox("Show Preview of Changes"):
                 old_parts = ref_28_data[cabinet_pos]
                 
                 # Format the 120cc (Size 28) string using columns 3, 4, 5
-                str_120cc = f"**120cc (Size 28)** ➔ Col 3: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
+                str_120cc = f"**120cc** ➔ X: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
                 
                 # Format the 200cc (Size 30) string using columns 3, 4, 5
-                str_200cc = f"**200cc (Size 30)** ➔ Col 3: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
+                str_200cc = f"**200cc** ➔ X: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
                 
                 # Print to the web app using markdown
-                st.markdown(f"### Position: {cabinet_pos}")
+                st.markdown(f"#### Position: {cabinet_pos}")
                 st.markdown(f"- {str_120cc}")
                 st.markdown(f"- {str_200cc}")
-                st.divider() # Adds a clean visual line between cabinet positions
                 
                 preview_count += 1
                 # Limit to 5 examples so it doesn't flood the web page
                 if preview_count >= 5:
                     break
 
-    # Prepare for download
-    final_output = "\n".join(output_lines)
-    st.download_button(
-        label="Download Updated File",
-        data=final_output,
-        file_name=updated_file_name + ".txt",
-        mime="text/plain"
-    )
-    st.success("Processing complete! Click download above.")
