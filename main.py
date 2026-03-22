@@ -59,14 +59,14 @@ if uploaded_file is not None:
             output_lines.append(line)
 
 # Prepare for download
-final_output = "\n".join(output_lines)
-st.download_button(
-    label="Download Updated File",
-    data=final_output,
-    file_name=updated_file_name + ".txt",
-    mime="text/plain"
-)
-st.success("Processing complete! Click download above.")
+    final_output = "\n".join(output_lines)
+    st.download_button(
+        label="Download Updated File",
+        data=final_output,
+        file_name=updated_file_name + ".txt",
+        mime="text/plain"
+    )
+    st.success("Processing complete! Click download above.")
 
             
 if st.checkbox("Show Preview of Changes"):
