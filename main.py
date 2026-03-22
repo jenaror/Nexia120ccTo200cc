@@ -14,6 +14,9 @@ updated_file_name = st.text_input("Output File Name (.txt added automatically)",
 
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 
+if abs(y_offset) > 20 or abs(z_offset) > 20:
+    st.warning("⚠️ **Warning:** An offset larger than 20mm has been entered. Please verify this is intentional before running the robot.")
+
 def write_human_summary(y_val, z_val):
     y_dir = "lower" if y_val >= 0 else "higher"
     z_dir = "closer to" if z_val >= 0 else "further from"
