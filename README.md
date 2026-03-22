@@ -58,7 +58,7 @@ In RFM, you will have to manually delete the positions before uploading the modi
 
 Finally, reopen the menu and click on **File** and then **Load** and upload the updated cal data file.
 
-<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm5.png" alt="RFM screenshot" height="300"> 
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm4.png" alt="RFM screenshot" height="300"> 
 
 #### Verifying the change
 After loading the positions, verify that the offset was correct by picking up a 200cc bottle and moving it to a dispenser position. ***Keep your hand on the e-stop to prevent the robot crashing in case of a mistake!*** It's also a good idea to keep the teach pendant handy and lower the speed to more carefully monitor the approach. 
