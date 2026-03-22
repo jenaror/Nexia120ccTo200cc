@@ -15,12 +15,12 @@ updated_file_name = st.text_input("Output File Name (.txt added automatically)",
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 
 def write_human_summary(y_val, z_val):
-    y_dir = "higher" if y_val >= 0 else "lower"
+    y_dir = "lower" if y_val >= 0 else "higher"
     z_dir = "closer to" if z_val >= 0 else "further from"
     
     summary_text = (
         f"Your **200cc** bottle will be **{abs(y_val)}mm {y_dir}** "
-        f"and **{abs(z_val)}mm {z_dir}** from the dispenser "
+        f"and **{abs(z_val)}mm {z_dir}** the dispenser "
         f"than your **120cc** bottle."
     )
     
