@@ -32,20 +32,41 @@ Perform the same procedure but this time measuring the distance from the base of
 **Note:** Unless you're using different vials than the standard calibration bottle and the standard 200cc bottle, the Z offset will probably be -3.0mm. After recording the offsets, test the offset by using a 120cc calibration and using the "Shift Position" button to shift it by your recorded values. If the new shifted position works for a 200cc bottle then you're good to go.
 
 #### Retrieving the Cal Data file
-
-Open Robotic Filling Manager and after unlocking the calibration menu item, click on **Calibrations**, then click on **View Calibrated Positions**. 
+Open Robotic Filling Manager (RFM) and after unlocking the calibration menu item, click on **Calibrations**, then click on **View Calibrated Positions**. 
 
 <img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm2.png" alt="RFM screenshot" height="300"> 
 
-Click **File** and then **Save** and save the cal data file somewhere easily accesible.
+Click **File** and then **Save** and save the cal data file somewhere easily accessible.
 
 <img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm3.png" alt="RFM screenshot" height="300"> 
 
 #### Setting the offsets
-
 Navigate to **https://nexiacaldata.streamlit.app**.
 
+Set the parameters for the new offset via the GUI. After getting your offsets entered upload the old cal data by either dragging into the upload bar or hitting **Browse files**.
 
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/Tool%20Screenshots/tool1.png" alt="Tool screenshot" height="300"> 
+
+After uploading, click **Download Updated File** to download the updated file. Save to an easily accessible location.
+
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/Tool%20Screenshots/tool2.png" alt="Tool screenshot" height="300"> 
 
 #### Loading the Cal Data file
-Navigate to the web tool at https://nexiacaldata.streamlit.app Set your offsets (in millimeters) on the right side. Export the Fanuc Cal Data from Robotic Filling Manager and upload the .txt file to the tool. Download the modified file. In RFM, you will have to manually delete the 200cc positions before uploading the modified file. Make sure you hit close after deleting the 200cc positions to save them as empty (RFM will not override existing positions by uploading a calibration file). 
+In RFM, you will have to manually delete the positions before uploading the modified file. Return to RFM and the **View Calibrated Positions** menu. Click **File** and then **Delete All Positions**. ***Make sure you still have the original copy of the cal data file, just in case.*** Then click on **OK**.
+
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm6.png" alt="RFM screenshot" height="300"> 
+
+Finally, reopen the menu and click on **File** and then **Load** and upload the updated cal data file.
+
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm5.png" alt="RFM screenshot" height="300"> 
+
+#### Verifying the change
+After loading the positions, verify that the offset was correct by picking up a 200cc bottle and moving it to a dispenser position. ***Keep your hand on the e-stop to prevent the robot crashing in case of a mistake!*** It's also a good idea to keep the teach pendant handy and lower the speed to more carefully monitor the approach. 
+
+
+
+
+
+
+
+
