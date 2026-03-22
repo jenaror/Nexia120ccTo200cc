@@ -18,7 +18,7 @@ uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 st.write("Offset calculation:")
 if y_offset < 0:
     st.write("Your 200cc bottle will be " + str(y_offset) + "mm lower than your 120cc bottle")
-if y_offset = 0:
+if y_offset == 0:
     st.write("Your 200cc bottle calibration will not change")
 else:
     st.write("Your 200cc bottle will be " + str(y_offset) + "mm higher than your 120cc bottle")
