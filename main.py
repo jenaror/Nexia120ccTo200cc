@@ -15,7 +15,6 @@ updated_file_name = st.text_input("Output File Name (.txt added automatically)",
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 
 # Preview
-st.write("Offset calculation:")
 if y_offset < 0:
     st.write("Your 200cc bottle will be " + str(y_offset) + "mm lower than your 120cc bottle")
 if y_offset == 0:
@@ -24,12 +23,6 @@ else:
     st.write("Your 200cc bottle will be " + str(y_offset) + "mm higher than your 120cc bottle")
 
 
-if st.checkbox("Show Preview of Changes"):
-    import pandas as pd
-    # Show the first 10 modified rows as a sample
-    preview_data = [line.split('|') for line in output_lines if '|30|' in line]
-    df = pd.DataFrame(preview_data).iloc[:10] # Show first 10
-    st.table(df)
 
 
 if uploaded_file is not None:
@@ -61,6 +54,13 @@ if uploaded_file is not None:
             output_lines.append('|'.join(new_row))
         else:
             output_lines.append(line)
+
+    if st.checkbox("Show Preview of Changes"):
+    import pandas as pd
+    # Show the first 10 modified rows as a sample
+    preview_data = [line.split('|') for line in output_lines if '|30|' in line]
+    df = pd.DataFrame(preview_data).iloc[:10] # Show first 10
+    st.table(df)
 
     # Prepare for download
     final_output = "\n".join(output_lines)
