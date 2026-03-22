@@ -14,16 +14,19 @@ updated_file_name = st.text_input("Output File Name (.txt added automatically)",
 
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
 
-# Preview
-if y_offset < 0:
-    st.write("Your 200cc bottle will be " + str(y_offset) + "mm lower than your 120cc bottle")
-if y_offset == 0:
-    st.write("Your 200cc bottle calibration will not change")
-else:
-    st.write("Your 200cc bottle will be " + str(y_offset) + "mm higher than your 120cc bottle")
+def write_human_summary(y_val, z_val):
+    y_dir = "higher" if y_val >= 0 else "lower"
+    z_dir = "closer to" if z_val >= 0 else "further from"
+    
+    summary_text = (
+        f"Your **200cc** bottle will be **{abs(y_val)}mm {y_dir}** "
+        f"and **{abs(z_val)}mm {z_dir}** from the dispenser "
+        f"than your **120cc** bottle."
+    )
+    
+    return st.info(summary_text)
 
-
-
+write_human_summary(y_offset, z_offset)
 
 if uploaded_file is not None:
     # Read the file content
@@ -57,9 +60,8 @@ if uploaded_file is not None:
 
     if st.checkbox("Show Preview of Changes"):
         import pandas as pd
-        # Show the first 10 modified rows as a sample
-        preview_data = [line.split('|') for line in output_lines if '|30|' in line]
-        df = pd.DataFrame(preview_data).iloc[:10] # Show first 10
+        preview_data = [line.split('|') for line in output_lines if '|30|' or '|28|' in line]
+        df = pd.DataFrame(preview_data).iloc[:10] 
         st.table(df)
 
     # Prepare for download
