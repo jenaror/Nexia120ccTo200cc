@@ -69,38 +69,38 @@ if uploaded_file is not None:
     st.success("Processing complete! Click download above.")
 
             
-if st.checkbox("Show Preview of Changes"):
-    st.subheader("Calibration Preview (First 5 Positions)")
+    if st.checkbox("Show Preview of Changes"):
+        st.subheader("Calibration Preview (First 5 Positions)")
     
-    preview_count = 0
-    # Loop through the output lines to find the updated '30' rows
-    for line in output_lines:
-        if "vial" in line.lower(): 
-            continue
+        preview_count = 0
+        # Loop through the output lines to find the updated '30' rows
+        for line in output_lines:
+            if "vial" in line.lower(): 
+                continue
             
-        parts = line.split('|')
+            parts = line.split('|')
         
-        # Look for the size '30' rows to display
-        if len(parts) > 5 and parts[1] == '30':
-            cabinet_pos = parts[0]
+            # Look for the size '30' rows to display
+            if len(parts) > 5 and parts[1] == '30':
+                cabinet_pos = parts[0]
             
-            # Fetch the original '28' row data we saved earlier
-            if cabinet_pos in ref_28_data:
-                old_parts = ref_28_data[cabinet_pos]
+                # Fetch the original '28' row data we saved earlier
+                if cabinet_pos in ref_28_data:
+                    old_parts = ref_28_data[cabinet_pos]
                 
                 # Format the 120cc (Size 28) string using columns 3, 4, 5
-                str_120cc = f"**120cc** ➔ X: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
+                    str_120cc = f"**120cc** ➔ X: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
                 
                 # Format the 200cc (Size 30) string using columns 3, 4, 5
-                str_200cc = f"**200cc** ➔ X: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
+                    str_200cc = f"**200cc** ➔ X: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
                 
                 # Print to the web app using markdown
-                st.markdown(f"#### Position: {cabinet_pos}")
-                st.markdown(f"- {str_120cc}")
-                st.markdown(f"- {str_200cc}")
+                    st.markdown(f"#### Position: {cabinet_pos}")
+                    st.markdown(f"- {str_120cc}")
+                    st.markdown(f"- {str_200cc}")
                 
-                preview_count += 1
+                    preview_count += 1
                 # Limit to 5 examples so it doesn't flood the web page
-                if preview_count >= 5:
-                    break
+                    if preview_count >= 5:
+                        break
 
