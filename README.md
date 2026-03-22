@@ -27,13 +27,25 @@ To calculate the offset, we need to find the difference in height from where the
 
 Perform the same procedure but this time measuring the distance from the base of the gripper fingers to center of the bottle between the two sizes. The difference in distances is how much the 200cc bottles sticks out further than the 120cc bottles.
 
-<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-5.jpg" alt="Description" height="300"> <img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-3.jpg" alt="Description" height="300">
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-5.jpg" alt="Small vial width" height="300"> <img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Bottle%20measurements/Image-3.jpg" alt="Large vial width" height="300">
 
 **Note:** Unless you're using different vials than the standard calibration bottle and the standard 200cc bottle, the Z offset will probably be -3.0mm. After recording the offsets, test the offset by using a 120cc calibration and using the "Shift Position" button to shift it by your recorded values. If the new shifted position works for a 200cc bottle then you're good to go.
 
 #### Retrieving the Cal Data file
 
+Open Robotic Filling Manager and after unlocking the calibration menu item, click on **Calibrations**, then click on **View Calibrated Positions**. 
+
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm2.png" alt="RFM screenshot" height="300"> 
+
+Click **File** and then **Save** and save the cal data file somewhere easily accesible.
+
+<img src="https://github.com/jenaror/Nexia120ccTo200cc/blob/editing-descriptions/Pictures/RFM/rfm3.png" alt="RFM screenshot" height="300"> 
+
 #### Setting the offsets
+
+Navigate to **https://nexiacaldata.streamlit.app**.
+
+
 
 #### Loading the Cal Data file
 Navigate to the web tool at https://nexiacaldata.streamlit.app Set your offsets (in millimeters) on the right side. Export the Fanuc Cal Data from Robotic Filling Manager and upload the .txt file to the tool. Download the modified file. In RFM, you will have to manually delete the 200cc positions before uploading the modified file. Make sure you hit close after deleting the 200cc positions to save them as empty (RFM will not override existing positions by uploading a calibration file). 
