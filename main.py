@@ -56,11 +56,11 @@ if uploaded_file is not None:
             output_lines.append(line)
 
     if st.checkbox("Show Preview of Changes"):
-    import pandas as pd
-    # Show the first 10 modified rows as a sample
-    preview_data = [line.split('|') for line in output_lines if '|30|' in line]
-    df = pd.DataFrame(preview_data).iloc[:10] # Show first 10
-    st.table(df)
+        import pandas as pd
+        # Show the first 10 modified rows as a sample
+        preview_data = [line.split('|') for line in output_lines if '|30|' in line]
+        df = pd.DataFrame(preview_data).iloc[:10] # Show first 10
+        st.table(df)
 
     # Prepare for download
     final_output = "\n".join(output_lines)
