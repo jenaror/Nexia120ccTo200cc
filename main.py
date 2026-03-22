@@ -8,15 +8,29 @@ st.title("Fanuc Calibration Data Tool")
 st.write("Convert your 120cc calibrations to 200cc.\n\nUpload your .txt file, set your offsets, and download the updated version.\n\nVisit the Github repo for more information: https://github.com/jenaror/Nexia120ccTo200cc")
 
 # Sidebar for inputs
-y_offset = st.number_input("Vertical Position Offset (mm)", value=8.0, format="%.1f")
-if y_offset < 0:
-    st.write("Your 200cc bottle will be " + str(y_offset) + "mm lower than your 120cc bottle")
-else:
-    st.write("Your 200cc bottle will be " + str(y_offset) + "mm higher than your 120cc bottle")
-z_offset = st.number_input("Approach Position Offset (mm)", value=-3.0, format="%.1f")
+y_offset = st.number_input("Vertical Position Offset (mm)", value=8.0, step=.1, format="%.1f")
+z_offset = st.number_input("Approach Position Offset (mm)", value=-3.0, step=.1, format="%.1f")
 updated_file_name = st.text_input("Output File Name (.txt added automatically)", value="Updated_Fanuc_Data")
 
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
+
+# Preview
+st.write("Offset calculation:")
+if y_offset < 0:
+    st.write("Your 200cc bottle will be " + str(y_offset) + "mm lower than your 120cc bottle")
+if y_offset = 0:
+    st.write("Your 200cc bottle calibration will not change")
+else:
+    st.write("Your 200cc bottle will be " + str(y_offset) + "mm higher than your 120cc bottle")
+
+
+if st.checkbox("Show Preview of Changes"):
+    import pandas as pd
+    # Show the first 10 modified rows as a sample
+    preview_data = [line.split('|') for line in output_lines if '|30|' in line]
+    df = pd.DataFrame(preview_data).iloc[:10] # Show first 10
+    st.table(df)
+
 
 if uploaded_file is not None:
     # Read the file content
