@@ -10,6 +10,10 @@ st.write("Convert your 120cc calibrations to 200cc.\n\nUpload your .txt file, se
 # Sidebar for inputs
 y_offset = st.number_input("Vertical Position Offset (mm)", value=8.0, step=.1, format="%.1f")
 z_offset = st.number_input("Approach Position Offset (mm)", value=-3.0, step=.1, format="%.1f")
+vial_size = st.selectbox(
+    "Vial size to convert to:",
+        ("FEATURE COMING SOON","200cc", "250cc"),
+                        )
 updated_file_name = st.text_input("Output File Name (.txt added automatically)", value="Updated_Fanuc_Data")
 
 uploaded_file = st.file_uploader("Choose a FanucCalData file", type="txt")
