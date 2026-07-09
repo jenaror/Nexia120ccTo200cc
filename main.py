@@ -40,7 +40,7 @@ def write_human_summary(y_val, z_val):
     summary_text = (
         f"Your **{selected_vial_size}** will be **{abs(y_val)}mm {y_dir}** "
         f"and **{abs(z_val)}mm {z_dir}** the dispenser "
-        f"than your **120cc**. test:{target_vial_value}"
+        f"than your **120cc**."
     )
     
     return st.info(summary_text)
