@@ -116,7 +116,7 @@ if uploaded_file is not None:
                 # Print to the web app using markdown
                     st.markdown(f"#### Position: {cabinet_pos}")
                     st.markdown(f"- {str_120cc}")
-                    st.markdown(f"- str_updated_cc")
+                    st.markdown(f"- {str_updated_cc}")
                 
                     preview_count += 1
                 # Limit to 5 examples so it doesn't flood the web page
