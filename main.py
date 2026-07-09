@@ -24,7 +24,7 @@ selected_vial_size = st.selectbox(
 )
 
 # Grab the vial interget from the vial dictionary
-target_vial_value = vial_mapping[selected_vial_label]
+target_vial_value = vial_mapping[selected_vial_size]
                         
 updated_file_name = st.text_input("Output File Name (.txt added automatically)", value="Updated_Fanuc_Data")
 
