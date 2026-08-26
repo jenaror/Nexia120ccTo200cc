@@ -1,5 +1,13 @@
 import streamlit as st
 import io
+import re
+
+# A "cabinet position" is a dispenser slot like "C1,R1,S1". Anything else
+# (Vial Pickup, Vial Drop Off, Home, Maintenance, etc.) is left untouched.
+CABINET_POSITION_PATTERN = re.compile(r'^C\d+,R\d+,S\d+$')
+
+def is_cabinet_position(position):
+    return bool(CABINET_POSITION_PATTERN.match(position.strip()))
 
 # Page Info
 st.set_page_config(page_title="Nexia Robotic Calibration Tool", page_icon="🤖"
@@ -15,8 +23,8 @@ vial_mapping = {
     "120cc": 28,
     "200cc": 30,
     "250cc": 32,
-    "z25": 34,
-    "z30": 31,
+    "z25": 23,
+    "z30": 33,
 }
 
 vial_names = list(vial_mapping.keys())
@@ -76,31 +84,62 @@ if uploaded_file is not None and source_vial_value != target_vial_value:
     lines = content.splitlines()
 
     source_ref_data = {}
-    # Pass 1: Collect reference rows for the selected source vial size
+    # Pass 1: Collect reference rows for the selected source vial size (cabinet positions only)
     for line in lines:
-        if "vial" in line.lower(): continue
         parts = line.split('|')
-        if len(parts) > 2 and parts[1] == str(source_vial_value):
+        if len(parts) > 2 and is_cabinet_position(parts[0]) and parts[1] == str(source_vial_value):
             source_ref_data[parts[0]] = parts
 
-    # Pass 2: Update rows matching the selected target vial size
+    # Pass 2: Update rows that already exist for the target vial size, and keep
+    # track of which cabinet positions have a target row (and where, so a
+    # newly created row can be slotted in right after that position's block).
     output_lines = []
     updated_count = 0
+    positions_with_target = set()
+    last_index_for_position = {}
+
     for line in lines:
-        if "vial" in line.lower():
+        parts = line.split('|')
+
+        if len(parts) <= 2 or not is_cabinet_position(parts[0]):
+            # Not a cabinet position (pickup/dropoff/home/maintenance/etc.) - leave as-is
             output_lines.append(line)
             continue
 
-        parts = line.split('|')
-        if len(parts) > 2 and parts[1] == str(target_vial_value) and parts[0] in source_ref_data:
-            new_row = source_ref_data[parts[0]].copy()
-            new_row[1] = str(target_vial_value)
-            new_row[4] = f"{float(new_row[4]) + y_offset:.6f}"
-            new_row[5] = f"{float(new_row[5]) + z_offset:.6f}"
-            output_lines.append('|'.join(new_row))
-            updated_count += 1
+        position = parts[0]
+
+        if parts[1] == str(target_vial_value):
+            positions_with_target.add(position)
+            if position in source_ref_data:
+                new_row = source_ref_data[position].copy()
+                new_row[1] = str(target_vial_value)
+                new_row[4] = f"{float(new_row[4]) + y_offset:.6f}"
+                new_row[5] = f"{float(new_row[5]) + z_offset:.6f}"
+                output_lines.append('|'.join(new_row))
+                updated_count += 1
+            else:
+                output_lines.append(line)
         else:
             output_lines.append(line)
+
+        last_index_for_position[position] = len(output_lines) - 1
+
+    # Pass 3: For cabinet positions that have a source row but never had a
+    # target row at all, create one from the source coordinates + offset.
+    missing_positions = [pos for pos in source_ref_data if pos not in positions_with_target]
+    # Insert from the bottom of the file up so earlier insertions don't shift
+    # the indices we recorded for positions further down.
+    missing_positions.sort(key=lambda pos: last_index_for_position.get(pos, -1), reverse=True)
+
+    created_count = 0
+    for position in missing_positions:
+        new_row = source_ref_data[position].copy()
+        new_row[1] = str(target_vial_value)
+        new_row[4] = f"{float(new_row[4]) + y_offset:.6f}"
+        new_row[5] = f"{float(new_row[5]) + z_offset:.6f}"
+        insert_at = last_index_for_position.get(position, len(output_lines) - 1) + 1
+        output_lines.insert(insert_at, '|'.join(new_row))
+        created_count += 1
 
     # Prepare for download
     final_output = "\n".join(output_lines)
@@ -111,27 +150,31 @@ if uploaded_file is not None and source_vial_value != target_vial_value:
         mime="text/plain"
     )
 
-    if updated_count > 0:
-        st.success(f"Processing complete! Updated {updated_count} position(s). Click download above.")
+    if updated_count > 0 or created_count > 0:
+        st.success(
+            f"Processing complete! Updated {updated_count} existing position(s) and created "
+            f"{created_count} new position(s). Click download above."
+        )
     else:
         st.warning(
-            f"No **{selected_target_vial_name}** rows matching a **{selected_source_vial_name}** position were found, "
-            "so nothing was changed. Double-check that your file contains both vial size codes."
+            f"No **{selected_source_vial_name}** cabinet positions were found in this file, "
+            "so nothing was changed or created. Double-check that your file contains that vial size code."
         )
 
     if st.checkbox("Show Preview of Changes"):
         st.subheader("Calibration Preview (First 5 Positions)")
 
+        created_positions = set(missing_positions)
         preview_count = 0
-        # Loop through the output lines to find the updated target rows
+        # Loop through the output lines to find the updated/created target rows
         for line in output_lines:
-            if "vial" in line.lower():
-                continue
-
             parts = line.split('|')
 
+            if len(parts) <= 5 or not is_cabinet_position(parts[0]):
+                continue
+
             # Look for the target size rows to display
-            if len(parts) > 5 and parts[1] == str(target_vial_value):
+            if parts[1] == str(target_vial_value):
                 cabinet_pos = parts[0]
 
                 # Fetch the original source row data we saved earlier
@@ -144,8 +187,10 @@ if uploaded_file is not None and source_vial_value != target_vial_value:
                     # Format the target string using columns 3, 4, 5
                     str_target = f"**{selected_target_vial_name}** ➔ X: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
 
+                    status_tag = " *(newly created)*" if cabinet_pos in created_positions else " *(updated)*"
+
                     # Print to the web app using markdown
-                    st.markdown(f"#### Position: {cabinet_pos}")
+                    st.markdown(f"#### Position: {cabinet_pos}{status_tag}")
                     st.markdown(f"- {str_source}")
                     st.markdown(f"- {str_target}")
 
