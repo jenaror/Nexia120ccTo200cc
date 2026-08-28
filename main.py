@@ -25,10 +25,11 @@ vial_mapping = {
     "200cc": 30,
     "250cc": 32,
     "z25": 34,
-    "z30": 31,
+    "z30": 33,
 }
 
-vial_names = list(vial_mapping.keys())
+MANUAL_OPTION = "Manual vial size ID"
+vial_names = list(vial_mapping.keys()) + [MANUAL_OPTION]
 
 # Source/target vial size selectors
 col1, col2 = st.columns(2)
@@ -38,6 +39,15 @@ with col1:
         options=vial_names,
         index=0,
     )
+    if selected_source_vial_name == MANUAL_OPTION:
+        source_vial_value = int(st.number_input(
+            "FROM vial size ID (the raw code in the file)",
+            min_value=0, step=1, value=0, key="manual_source_id",
+        ))
+        source_vial_display = f"vial ID {source_vial_value}"
+    else:
+        source_vial_value = vial_mapping[selected_source_vial_name]
+        source_vial_display = selected_source_vial_name
 with col2:
     # Default the target to a different entry than the source when possible
     default_target_index = 1 if len(vial_names) > 1 else 0
@@ -46,13 +56,18 @@ with col2:
         options=vial_names,
         index=default_target_index,
     )
-
-# Grab the vial integers from the vial dictionary
-source_vial_value = vial_mapping[selected_source_vial_name]
-target_vial_value = vial_mapping[selected_target_vial_name]
+    if selected_target_vial_name == MANUAL_OPTION:
+        target_vial_value = int(st.number_input(
+            "TO vial size ID (the raw code in the file)",
+            min_value=0, step=1, value=0, key="manual_target_id",
+        ))
+        target_vial_display = f"vial ID {target_vial_value}"
+    else:
+        target_vial_value = vial_mapping[selected_target_vial_name]
+        target_vial_display = selected_target_vial_name
 
 if source_vial_value == target_vial_value:
-    st.warning("⚠️ **Warning:** Source and target vial sizes are the same. Please select two different sizes above.")
+    st.warning("⚠️ **Warning:** Source and target vial sizes are the same. Please select (or enter) two different sizes above.")
 
 # Sidebar for inputs
 y_offset = st.number_input("Vertical Position Offset (mm)", value=8.0, step=.1, format="%.1f")
@@ -70,9 +85,9 @@ def write_human_summary(y_val, z_val):
     z_dir = "closer to" if z_val >= 0 else "further from"
 
     summary_text = (
-        f"Your **{selected_target_vial_name}** will be **{abs(y_val)}mm {y_dir}** "
+        f"Your **{target_vial_display}** will be **{abs(y_val)}mm {y_dir}** "
         f"and **{abs(z_val)}mm {z_dir}** the dispenser "
-        f"than your **{selected_source_vial_name}**."
+        f"than your **{source_vial_display}**."
     )
 
     return st.info(summary_text)
@@ -158,7 +173,7 @@ if uploaded_file is not None and source_vial_value != target_vial_value:
         )
     else:
         st.warning(
-            f"No **{selected_source_vial_name}** cabinet positions were found in this file, "
+            f"No **{source_vial_display}** cabinet positions were found in this file, "
             "so nothing was changed or created. Double-check that your file contains that vial size code."
         )
 
@@ -183,10 +198,10 @@ if uploaded_file is not None and source_vial_value != target_vial_value:
                     old_parts = source_ref_data[cabinet_pos]
 
                     # Format the source vial string using columns 3, 4, 5
-                    str_source = f"**{selected_source_vial_name}** ➔ X: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
+                    str_source = f"**{source_vial_display}** ➔ X: `{old_parts[3]}` | Y: `{old_parts[4]}` | Z: `{old_parts[5]}`"
 
                     # Format the target string using columns 3, 4, 5
-                    str_target = f"**{selected_target_vial_name}** ➔ X: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
+                    str_target = f"**{target_vial_display}** ➔ X: `{parts[3]}` | Y: `{parts[4]}` | Z: `{parts[5]}`"
 
                     status_tag = " *(newly created)*" if cabinet_pos in created_positions else " *(updated)*"
 
