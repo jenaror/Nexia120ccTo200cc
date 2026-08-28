@@ -25,7 +25,7 @@ vial_mapping = {
     "200cc": 30,
     "250cc": 32,
     "z25": 34,
-    "z30": 33,
+    "z30": 31,
 }
 
 vial_names = list(vial_mapping.keys())
